@@ -1,6 +1,8 @@
 package com.pluralsight.karan.appthreadissues;
 
 import android.content.DialogInterface;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +20,9 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MAX_WRITES = 5;
+
+
+    LocationListener mLocationListener;
 
     /**
      * Starting point of the activity
@@ -37,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
             simpleWrite( outStream, "Hello World");
         }
         closeOutStream(outStream);
+    }
+
+    public void btnStartLocationMonitoringOnClick(View view) {
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        mLocationListener = new MyLocationListener();
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0.0f, mLocationListener);
     }
 
     public void btnWriteToFileAsyncTask(View view){
@@ -68,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void aVoid) {
                 displayCompletionMessage();
+                cleanupProgressBar(pb);
             }
         }.execute(messageToWrite);
     }
@@ -83,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void cleanupProgressBar(ProgressBar pb) {
-        pb.setVisibility(View.INVISIBLE);
+        pb.setProgress(0);
     }
 
     protected void displayCompletionMessage() {
