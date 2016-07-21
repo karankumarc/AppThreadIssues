@@ -1,6 +1,7 @@
 package com.pluralsight.karan.appthreadissues;
 
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,22 +40,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnWriteToFileAsyncTask(View view){
-        String messageToWrite = "Message to write to file";
+        final String messageToWrite = "Message to write to file";
 
-        ProgressBar pb = (ProgressBar) findViewById(R.id.progressBarMain);
+        final ProgressBar pb = (ProgressBar) findViewById(R.id.progressBarMain);
         initializeProgressBar(pb);
         displayStartedMessage();
 
-        FileOutputStream outStream = openOutStream("testout.dat");
-        for (int i = 0; i < MAX_WRITES; i++) {
-            slowWrite(outStream, messageToWrite);
-            pb.setProgress(i);
-        }
+        new AsyncTask<String, Integer, Void>(){
 
-        closeOutStream(outStream);
+            @Override
+            protected Void doInBackground(String... strings) {
+                FileOutputStream outStream = openOutStream("testout.dat");
+                for (int i = 0; i < MAX_WRITES; i++) {
+                    slowWrite(outStream, strings[0]);
+                    publishProgress(i+1);
+                }
+                closeOutStream(outStream);
+                return null;
+            }
 
-        displayCompletionMessage();
-        cleanupProgressBar(pb);
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+                pb.setProgress(values[0]);
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                displayCompletionMessage();
+            }
+        }.execute(messageToWrite);
     }
 
     protected void initializeProgressBar(ProgressBar pb) {
