@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.enableDefaults();
     }
 
-    public void btnWriteToFileOnClick(Button view){
+    public void btnWriteToFileOnClick(View view){
         FileOutputStream outStream = openOutStream("testout.dat");
         for (int i = 0; i < MAX_WRITES; i++) {
             simpleWrite( outStream, "Hello World");
