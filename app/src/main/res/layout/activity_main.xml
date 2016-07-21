@@ -10,11 +10,36 @@
     tools:context="com.pluralsight.karan.appthreadissues.MainActivity">
 
     <Button
+        android:onClick="btnWriteToFileOnClick"
+        android:id="@+id/btnWriteToFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write to file"
-        android:id="@+id/button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="btnWriteToFileOnClick" />
+        android:layout_marginTop="50dp"
+        android:text="Write to file" />
+
+    <Button
+        android:onClick="btnWriteToFileAsyncTask"
+        android:id="@+id/btnWriteToFileAsyncTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnWriteToFile"
+        android:text="Write to file (AsyncTask)" />
+
+    <ProgressBar
+        android:id="@+id/progressBarMain"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:indeterminate="false"
+        android:max="5"
+        android:visibility="visible" />
+
 </RelativeLayout>
