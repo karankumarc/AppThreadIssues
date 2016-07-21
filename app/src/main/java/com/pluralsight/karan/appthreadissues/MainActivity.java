@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void btnWriteToFileOnClick(Button view){
+    public void btnWriteToFileOnClick(View view){
 
     }
 
