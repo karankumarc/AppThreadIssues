@@ -23,10 +23,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        StrictMode.enableDefaults();
     }
 
     public void btnWriteToFileOnClick(Button view){
-
+        FileOutputStream outStream = openOutStream("testout.dat");
+        for (int i = 0; i < MAX_WRITES; i++) {
+            simpleWrite( outStream, "Hello World");
+        }
+        closeOutStream(outStream);
     }
 
     private FileOutputStream openOutStream(String filename) {
